@@ -1,6 +1,9 @@
 # graphicsmagick-node
 Docker image - Node.js + Graphicsmagick on [Alpine Linux](https://alpinelinux.org/)
 
+## Use cases
+The image is supposed to be used for [Node.js](https://nodejs.org/en/) applications using the [gm](http://aheckmann.github.io/gm/) library for image processing.
+
 ## Inspiration
 Derived from https://github.com/rafakato/alpine-graphicsmagick (https://hub.docker.com/r/rafakato/alpine-graphicsmagick/).
 
