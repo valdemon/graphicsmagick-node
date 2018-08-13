@@ -2,7 +2,7 @@
 FROM    node:8-alpine
 
 ENV PKGNAME=graphicsmagick
-ENV PKGVER=1.3.28
+ENV PKGVER=1.3.30
 ENV PKGSOURCE=http://downloads.sourceforge.net/$PKGNAME/$PKGNAME/$PKGVER/GraphicsMagick-$PKGVER.tar.lz
 ENV JBIG_REPO=https://github.com/nu774/jbigkit.git
 
