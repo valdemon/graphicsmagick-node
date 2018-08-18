@@ -5,6 +5,8 @@ ENV PKGNAME=graphicsmagick
 ENV PKGVER=1.3.30
 ENV PKGSOURCE=http://downloads.sourceforge.net/$PKGNAME/$PKGNAME/$PKGVER/GraphicsMagick-$PKGVER.tar.lz
 ENV JBIG_REPO=https://github.com/nu774/jbigkit.git
+ENV WEBP_VER=1.0.0
+ENV WEBP_REPO=https://github.com/webmproject/libwebp/archive/v$WEBP_VER.tar.gz
 
 #
 # Installing graphicsmagick dependencies
@@ -16,6 +18,8 @@ RUN apk add --no-cache --update g++ \
                      git \
                      lzip \
                      wget \
+                     sdl-dev \
+                     giflib-dev \
                      libjpeg-turbo-dev \
                      lcms2-dev \
                      libwmf-dev \
@@ -23,22 +27,30 @@ RUN apk add --no-cache --update g++ \
                      libx11-dev \
                      libpng-dev \
                      libtool \
-                     libwebp-dev \
                      jasper-dev \
                      bzip2-dev \
                      libxml2-dev \
                      tiff-dev \
                      exiftool \
                      freetype-dev \
-                     libgomp && \
-    git clone $JBIG_REPO && \
+                     libgomp
+    # JBIG Kit
+RUN git clone $JBIG_REPO && \
     cd ./jbigkit && ls -la && \
     autoreconf -ivf && automake --add-missing && \
     ./configure && \
     make install && \
     cd / && \
-    rm -rf ./jbigkit && \
-    wget $PKGSOURCE --no-check-certificate && \
+    rm -rf ./jbigkit
+    # WebP
+RUN wget --no-check-certificate -O libwebp.tar.gz $WEBP_REPO \
+    && tar -xvf libwebp.tar.gz \
+    && cd libwebp-$WEBP_VER \
+    && ./autogen.sh \
+    && ./configure --enable-everything \
+    && make install
+    # GM
+RUN wget $PKGSOURCE --no-check-certificate && \
     lzip -d -c GraphicsMagick-$PKGVER.tar.lz | tar -xvf - && \
     cd GraphicsMagick-$PKGVER && \
     ./configure \
